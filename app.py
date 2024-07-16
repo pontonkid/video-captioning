@@ -92,3 +92,12 @@ def process_video(video_path, frame_interval):
     cap.release()
     df = pd.DataFrame({'Frame': frames, 'Caption': captions})
     return frames, df
+
+st.title("Combined Video Captioning and Gallery App")
+
+# Sidebar for search functionality
+with st.sidebar:
+    query = st.text_input("Search videos by caption:")
+
+# Options for input strategy
+input_option = st.selectbox("Select input method:", ["Folder Path", "Upload Video", "Upload ZIP"])
