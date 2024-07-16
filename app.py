@@ -31,3 +31,9 @@ tokenizer.pad_token = tokenizer.eos_token
 model.config.eos_token_id = tokenizer.eos_token_id
 model.config.decoder_start_token_id = tokenizer.bos_token_id
 model.config.pad_token_id = tokenizer.pad_token_id
+
+
+model_sum_name = "google-t5/t5-base"
+tokenizer_sum = AutoTokenizer.from_pretrained("google-t5/t5-base")
+model_sum = AutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-base")
+summarize_pipe = pipeline("summarization", model=model_sum_name)
