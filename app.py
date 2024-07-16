@@ -33,6 +33,11 @@ model.config.decoder_start_token_id = tokenizer.bos_token_id
 model.config.pad_token_id = tokenizer.pad_token_id
 
 
+def generate_caption(image):
+    pixel_values = feature_extractor(images=image, return_tensors="pt").pixel_values
+    output_ids = model.generate(pixel_values)
+    caption = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+    return caption
 model_sum_name = "google-t5/t5-base"
 tokenizer_sum = AutoTokenizer.from_pretrained("google-t5/t5-base")
 model_sum = AutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-base")
