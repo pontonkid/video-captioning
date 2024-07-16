@@ -62,3 +62,13 @@ def preprocess_query(query):
         tokens.update(get_synonyms(token.text))
     return tokens
 
+def search_captions(query, captions):
+    query_tokens = preprocess_query(query)
+    
+    results = []
+    for path, caption in captions.items():
+        caption_tokens = preprocess_query(caption)
+        if query_tokens & caption_tokens:
+            results.append((path, caption))
+    
+    return results
