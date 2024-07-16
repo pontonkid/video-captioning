@@ -154,3 +154,10 @@ if query:
         for video_path, summary in results:
             st.video(video_path)
             st.caption(summary)
+
+# Save captions to CSV and provide a download button
+    if st.button("Generate CSV"):
+        df = pd.DataFrame(list(captions.items()), columns=['Video', 'Caption'])
+        csv = df.to_csv(index=False)
+        st.download_button(label="Download captions as CSV", data=csv, file_name="captions.csv", mime="text/csv")
+
