@@ -53,3 +53,12 @@ def get_synonyms(word):
     return synonyms
 
 
+def preprocess_query(query):
+    doc = nlp(query)
+    tokens = set()
+    for token in doc:
+        tokens.add(token.text)
+        tokens.add(token.lemma_)
+        tokens.update(get_synonyms(token.text))
+    return tokens
+
