@@ -117,3 +117,13 @@ elif input_option == "Upload Video":
             with tempfile.NamedTemporaryFile(delete=False) as temp_file:
                 temp_file.write(uploaded_file.read())
                 video_files.append(temp_file.name)
+
+
+elif input_option == "Upload ZIP":
+    uploaded_zip = st.file_uploader("Upload a ZIP file containing videos", type=["zip"])
+    if uploaded_zip:
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(uploaded_zip.read())
+            with zipfile.ZipFile(temp_file.name, 'r') as zip_ref:
+                zip_ref.extractall("/tmp/videos")
+                video_files = [os.path.join("/tmp/videos", f) for f in zip_ref.namelist() if f.lower().endswith(('mp4', 'avi', 'mov', 'mkv'))]
