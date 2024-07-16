@@ -138,3 +138,11 @@ if video_files:
             generated_captions = ' '.join(captions_df['Caption'])
             summary = summarize_pipe(generated_captions)[0]['summary_text']
             captions[video_file] = summary
+
+
+# Display videos in a 4-column grid
+    cols = st.columns(4)
+    for idx, (video_path, summary) in enumerate(captions.items()):
+        with cols[idx % 4]:
+            st.video(video_path)
+            st.caption(summary)
