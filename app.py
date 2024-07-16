@@ -72,3 +72,23 @@ def search_captions(query, captions):
             results.append((path, caption))
     
     return results
+
+
+def process_video(video_path, frame_interval):
+    cap = cv2.VideoCapture(video_path)
+    frames = []
+    captions = []
+    success, frame = cap.read()
+    count = 0
+    while success:
+        if count % frame_interval == 0:
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            pil_image = Image.fromarray(frame_rgb)
+            caption = generate_caption(pil_image)
+            frames.append(frame)
+            captions.append(caption)
+        success, frame = cap.read()
+        count += 1
+    cap.release()
+    df = pd.DataFrame({'Frame': frames, 'Caption': captions})
+    return frames, df
