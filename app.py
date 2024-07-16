@@ -101,3 +101,19 @@ with st.sidebar:
 
 # Options for input strategy
 input_option = st.selectbox("Select input method:", ["Folder Path", "Upload Video", "Upload ZIP"])
+
+
+video_files = []
+
+if input_option == "Folder Path":
+    folder_path = st.text_input("Enter the folder path containing videos:")
+    if folder_path and os.path.isdir(folder_path):
+        video_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.lower().endswith(('mp4', 'avi', 'mov', 'mkv'))]
+
+elif input_option == "Upload Video":
+    uploaded_files = st.file_uploader("Upload video files", type=["mp4", "avi", "mov", "mkv"], accept_multiple_files=True)
+    if uploaded_files:
+        for uploaded_file in uploaded_files:
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                temp_file.write(uploaded_file.read())
+                video_files.append(temp_file.name)
