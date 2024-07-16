@@ -127,3 +127,14 @@ elif input_option == "Upload ZIP":
             with zipfile.ZipFile(temp_file.name, 'r') as zip_ref:
                 zip_ref.extractall("/tmp/videos")
                 video_files = [os.path.join("/tmp/videos", f) for f in zip_ref.namelist() if f.lower().endswith(('mp4', 'avi', 'mov', 'mkv'))]
+
+
+if video_files:
+    captions = {}
+    for video_file in video_files:
+        frames, captions_df = process_video(video_file, frame_interval=20)
+        
+        if frames and not captions_df.empty:
+            generated_captions = ' '.join(captions_df['Caption'])
+            summary = summarize_pipe(generated_captions)[0]['summary_text']
+            captions[video_file] = summary
