@@ -146,3 +146,11 @@ if video_files:
         with cols[idx % 4]:
             st.video(video_path)
             st.caption(summary)
+
+
+if query:
+        results = search_captions(query, captions)
+        st.write("Search Results:")
+        for video_path, summary in results:
+            st.video(video_path)
+            st.caption(summary)
